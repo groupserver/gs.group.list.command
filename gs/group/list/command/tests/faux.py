@@ -13,7 +13,10 @@
 #
 ############################################################################
 from __future__ import absolute_import, unicode_literals
+from zope.component import getGlobalSiteManager
 from zope.interface import Interface, implementer
+from gs.group.list.command.interfaces import IEmailCommand
+from gs.group.list.command.result import CommandResult
 
 
 class IFauxGroup(Interface):
@@ -23,3 +26,30 @@ class IFauxGroup(Interface):
 @implementer(IFauxGroup)
 class FauxGroup(object):
     'This is not a group'
+
+
+class FauxCommand(object):
+    retval = None
+
+    def __init__(self, group):
+        self.group = group
+
+    @classmethod
+    def process(cls, email):
+        return cls.retval
+
+
+@implementer(IEmailCommand)
+class FauxCommandStop(FauxCommand):
+    retval = CommandResult.commandStop
+
+
+@implementer(IEmailCommand)
+class FauxCommandContinue(FauxCommand):
+    retval = CommandResult.commandContinue
+
+
+gsm = getGlobalSiteManager()
+gsm.registerAdapter(FauxCommandStop, (IFauxGroup,), IEmailCommand, 'stop')
+gsm.registerAdapter(FauxCommandContinue, (IFauxGroup,), IEmailCommand,
+                    'continue')

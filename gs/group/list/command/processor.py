@@ -17,7 +17,7 @@ from email.message import Message
 from email.parser import Parser
 import shlex
 from zope.cachedescriptors.property import Lazy
-from zope.component import queryUtility
+from zope.component import queryAdapter
 from .interfaces import IEmailCommand
 from .result import CommandResult
 
@@ -48,9 +48,9 @@ class ProcessEmailCommand(object):
 :rtype: ``.result.CommandResult``'''
         retval = CommandResult.notACommand
         if self.command:
-            u = queryUtility(self.group, IEmailCommand, self.command)
-            if u:
-                retval = u.process(self.email)
+            a = queryAdapter(self.group, IEmailCommand, self.command)
+            if a:
+                retval = a.process(self.email)
         return retval
 
 
@@ -79,8 +79,8 @@ will be either
     if isinstance(email, Message):
         e = email
     elif isinstance(email, basestring):
-        p = Parser(email)
-        e = p.parsestr
+        p = Parser()
+        e = p.parsestr(email)
     else:
         m = 'email must be a string or a email.message.Message'
         raise TypeError(m)

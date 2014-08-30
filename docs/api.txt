@@ -25,30 +25,32 @@ Example
 Registering command processors
 ------------------------------
 
-The commands are named *utilities*, that implement the
+The commands are named *adaptors*, that implement the
 :class"`gs.group.list.command.interfaces.IEmailCommand`
 interface. The *name* is the command-name in **lower case.** So
 the command to unsubscribe someone from a group will have the
-utility name ``unsubscribe``. The utility must 
+adaptor name ``unsubscribe``. The adaptor must
 
-* Take the group in the :meth:`__init__` method,
+* Take the group in the :meth:`__init__` method (it adapts the
+  group),
 * Provide a :meth:`process` method that takes the email as an
   argument.
 
 Example
 ~~~~~~~
 
-I prefer to declare utilities using ZCML. This will declare a
+I prefer to declare adaptors using ZCML. This will declare a
 command called ``example``, which is implemented by the
 :class:`ExampleCommand` class in the :mod:`example` module in the
 local directory:
 
 .. code-block:: xml
 
-  <utility
+  <adapter
     name="example"
+    for="gs.group.base.interfaces.IGSGroupMarker"
     provides="gs.group.list.command.interfaces.IEmailCommand" 
-    component=".example.ExampleCommand" />
+    factory=".example.ExampleCommand" />
 
 The :mod:`example` module would contain the
 :class:`ExampleCommand` class.

@@ -14,8 +14,9 @@
 ############################################################################
 from __future__ import absolute_import, unicode_literals
 from unittest import TestSuite, main as unittest_main
-from gs.group.list.command.tests.processor import TestProcessEmailCommand
-testCases = (TestProcessEmailCommand, )
+from gs.group.list.command.tests.processor import (
+    TestProcessEmailCommand, TestProcessCommandFunction)
+testCases = (TestProcessEmailCommand, TestProcessCommandFunction)
 
 
 def load_tests(loader, tests, pattern):
