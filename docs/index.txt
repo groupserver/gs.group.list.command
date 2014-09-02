@@ -29,8 +29,8 @@ adaptor name ``unsubscribe``. The adaptor must
 
 * Take the group in the :meth:`__init__` method (it adapts the
   group),
-* Provide a :meth:`process` method that takes the email as an
-  argument.
+* Provide a :meth:`process` method that takes the email and
+  browser-request as an argument.
 
 Example
 -------
@@ -52,19 +52,19 @@ local directory:
     factory=".example.ExampleCommand" />
 
 The :mod:`example` module would contain the
-:class:`ExampleCommand` class.
+:class:`ExampleCommand` class, which inherits from the abstract
+base-class for commands.
 
 .. code-block:: python
 
-  from gs.group.list.command import CommandResult.commandStop:
-  class ExampleCommand(object):
-      def __init__(self, group):
-          self.group = group
-
-      def process(email):
+  from gs.group.list.command import CommandABC, CommandResult
+  class ExampleCommand(CommandABC):
+      def process(email, request):
           # TODO: Stuff
           return CommandResult.commandStop
 
+The ``request`` is passed in to the :meth:`process` method so the
+class can issue email-notifications.
 
 Indices and tables
 ==================

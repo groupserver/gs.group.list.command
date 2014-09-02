@@ -29,9 +29,10 @@ class ProcessEmailCommand(object):
 :param group: A group object.
 :param email: An email, with the IEmail interface'''
 
-    def __init__(self, group, email):
+    def __init__(self, group, email, request):
         self.group = group
         self.email = email
+        self.request = request
 
     @Lazy
     def command(self):
@@ -51,14 +52,14 @@ class ProcessEmailCommand(object):
         if self.command:
             a = queryAdapter(self.group, IEmailCommand, self.command)
             if a:
-                retval = a.process(self.email)
+                retval = a.process(self.email, self.request)
         return retval
 
 
 STRING = basestring if (sys.version_info < (3, )) else str
 
 
-def process_command(group, email):
+def process_command(group, email, request):
     '''Process a command in an email message
 
 :param group: The group that recieved the email message.
@@ -88,6 +89,6 @@ will be either
     else:
         m = 'email must be a string or a email.message.Message'
         raise TypeError(m)
-    emailProcessor = ProcessEmailCommand(group, e)
+    emailProcessor = ProcessEmailCommand(group, e, request)
     retval = emailProcessor.process()
     return retval

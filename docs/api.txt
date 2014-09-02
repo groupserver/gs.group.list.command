@@ -17,9 +17,22 @@ Example
 
 ::
 
-  r = process_command(self.group, email)
+  r = process_command(self.group, email, request)
   if r == gs.group.list.command.CommandResult.commandStop:
     return
+
+Command Abstract Base Class
+---------------------------
+
+The :class:`CommandABC` abstract base-class provides some useful
+functionality
+
+.. autoclass:: gs.group.list.command.CommandABC
+   :members:
+
+Sub-classes of :class:`CommandABC` will need to provide the
+:meth:`process` method. The browser-request is passed in so the
+command can issue email-notifications.
 
 The Result Enumeration
 ----------------------

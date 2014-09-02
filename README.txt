@@ -24,9 +24,8 @@ It is traditional for mailing lists to support a set of
 GroupServer groups. Commands are extracted from the ``Subject``
 line of an email message: the first word is extracted, converted
 to lower case, and the command is then looked up. This allows
-both ``Unsubscribe`` and ``unsubscribe`` to work, but ``Re:
-unsubscribe`` and ``FYI: unsubscribe`` will be treated as normal
-posts.
+``Unsubscribe``, ``unsubscribe`` and ``Re: Unsubscribe`` to work,
+but ``FYI: unsubscribe`` will be treated as a normal post.
 
 The commands themselves are supplied by other products. This
 product just provides the framework for registering commands. The

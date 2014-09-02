@@ -40,21 +40,21 @@ class TestProcessEmailCommand(TestCase):
         'Test that the command is extracted from the Subject'
         command = 'test'
         e = self.get_email(command)
-        pec = ProcessEmailCommand(self.fauxGroup, e)
+        pec = ProcessEmailCommand(self.fauxGroup, e, None)
         self.assertEqual(command, pec.command)
 
     def test_command_lowercase(self):
         'Test that we extract the lower-case command.'
         command = 'Test'
         e = self.get_email(command)
-        pec = ProcessEmailCommand(self.fauxGroup, e)
+        pec = ProcessEmailCommand(self.fauxGroup, e, None)
         self.assertEqual(command.lower(), pec.command)
 
     def test_process_stop(self):
         'Test that we can process the (fake) Stop command'
         command = 'Stop'
         e = self.get_email(command)
-        pec = ProcessEmailCommand(self.fauxGroup, e)
+        pec = ProcessEmailCommand(self.fauxGroup, e, None)
         r = pec.process()
         self.assertEqual(CommandResult.commandStop, r)
 
@@ -62,7 +62,7 @@ class TestProcessEmailCommand(TestCase):
         'Test that we can process the (fake) Continue command'
         command = 'Continue'
         e = self.get_email(command)
-        pec = ProcessEmailCommand(self.fauxGroup, e)
+        pec = ProcessEmailCommand(self.fauxGroup, e, None)
         r = pec.process()
         self.assertEqual(CommandResult.commandContinue, r)
 
@@ -70,7 +70,7 @@ class TestProcessEmailCommand(TestCase):
         'Test an email that does not contain a command'
         command = 'This is a dead parrot'
         e = self.get_email(command)
-        pec = ProcessEmailCommand(self.fauxGroup, e)
+        pec = ProcessEmailCommand(self.fauxGroup, e, None)
         r = pec.process()
         self.assertEqual(CommandResult.notACommand, r)
 
@@ -84,7 +84,7 @@ class TestProcessCommandFunction(TestCase):
     def test_process_email(self):
         'Test that we correctly process an email'
         e = TestProcessEmailCommand.get_email('Putting the boot in')
-        r = process_command(self.fauxGroup, e)
+        r = process_command(self.fauxGroup, e, None)
         self.assertEqual(CommandResult.notACommand, r)
 
     def test_process_string(self):
@@ -94,5 +94,5 @@ class TestProcessCommandFunction(TestCase):
              'Subject: Putting the boot in\n'
              '\n'
              'Body would go here\n')
-        r = process_command(self.fauxGroup, s)
+        r = process_command(self.fauxGroup, s, None)
         self.assertEqual(CommandResult.notACommand, r)

@@ -35,7 +35,7 @@ class FauxCommand(object):
         self.group = group
 
     @classmethod
-    def process(cls, email):
+    def process(cls, email, request):
         return cls.retval
 
 
