@@ -16,6 +16,7 @@ from __future__ import absolute_import, unicode_literals
 from email.message import Message
 from email.parser import Parser
 import shlex
+import sys
 from zope.cachedescriptors.property import Lazy
 from zope.component import queryAdapter
 from .interfaces import IEmailCommand
@@ -54,6 +55,9 @@ class ProcessEmailCommand(object):
         return retval
 
 
+STRING = basestring if (sys.version_info < (3, )) else str
+
+
 def process_command(group, email):
     '''Process a command in an email message
 
@@ -78,7 +82,7 @@ will be either
 '''
     if isinstance(email, Message):
         e = email
-    elif isinstance(email, basestring):
+    elif isinstance(email, STRING):
         p = Parser()
         e = p.parsestr(email)
     else:
