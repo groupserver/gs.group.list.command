@@ -19,6 +19,19 @@ Email commands for a group
 Introduction
 ============
 
+It is traditional for mailing lists to support a set of
+*commands.* This product provides support for these commands in
+GroupServer groups. Commands are extracted from the ``Subject``
+line of an email message: the first word is extracted, converted
+to lower case, and the command is then looked up. This allows
+both ``Unsubscribe`` and ``unsubscribe`` to work, but ``Re:
+unsubscribe`` and ``FYI: unsubscribe`` will be treated as normal
+posts.
+
+The commands themselves are supplied by other products. This
+product just provides the framework for registering commands. The
+full Sphinx documentation is provided in the ``docs`` directory
+of this product.
 
 Resources
 =========

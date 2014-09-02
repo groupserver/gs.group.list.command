@@ -1,9 +1,8 @@
 :mod:`gs.group.list.command` API Reference
 ==========================================
 
-The API for email-commands is in three parts: `processing
-commands`_, `registering command processors`_, and `the result
-enumeration`_.
+The API for email-commands is in two parts: `processing
+commands`_, and `the result enumeration`_.
 
 Processing commands
 -------------------
@@ -21,50 +20,6 @@ Example
   r = process_command(self.group, email)
   if r == gs.group.list.command.CommandResult.commandStop:
     return
-
-Registering command processors
-------------------------------
-
-The commands are named *adaptors*, that implement the
-:class"`gs.group.list.command.interfaces.IEmailCommand`
-interface. The *name* is the command-name in **lower case.** So
-the command to unsubscribe someone from a group will have the
-adaptor name ``unsubscribe``. The adaptor must
-
-* Take the group in the :meth:`__init__` method (it adapts the
-  group),
-* Provide a :meth:`process` method that takes the email as an
-  argument.
-
-Example
-~~~~~~~
-
-I prefer to declare adaptors using ZCML. This will declare a
-command called ``example``, which is implemented by the
-:class:`ExampleCommand` class in the :mod:`example` module in the
-local directory:
-
-.. code-block:: xml
-
-  <adapter
-    name="example"
-    for="gs.group.base.interfaces.IGSGroupMarker"
-    provides="gs.group.list.command.interfaces.IEmailCommand" 
-    factory=".example.ExampleCommand" />
-
-The :mod:`example` module would contain the
-:class:`ExampleCommand` class.
-
-.. code-block:: python
-
-  from gs.group.list.command import CommandResult.commandStop:
-  class ExampleCommand(object):
-      def __init__(self, group):
-          self.group = group
-
-      def process(email):
-          # TODO: Stuff
-          return CommandResult.commandStop
 
 The Result Enumeration
 ----------------------
