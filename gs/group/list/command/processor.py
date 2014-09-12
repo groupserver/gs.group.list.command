@@ -39,7 +39,8 @@ class ProcessEmailCommand(object):
         retval = None
         subject = self.email.get('Subject', None)
         if subject:
-            components = [c.lower() for c in shlex.split(subject)]
+            components = [c.lower() for c in shlex.split(subject)
+                          if c.lower() != 're:']
             retval = components[0] if components else None
         return retval
 
