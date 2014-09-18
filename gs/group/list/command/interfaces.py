@@ -22,7 +22,7 @@ class IEmailCommand(Interface):
     def process(email):  # lint:ok
         '''Process the command in the email
 
-:param email: The email message to process.
-:type email: :class:`email.message.Message`.
-:returns: Weather or not processing should continue.
+:param email: The email message to process
+:type email: :class:`email.message.Message`
+:returns: Weather or not processing should continue
 :rtype: :class:`gs.group.list.command.CommandResult`'''

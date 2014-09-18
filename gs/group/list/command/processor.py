@@ -27,7 +27,8 @@ class ProcessEmailCommand(object):
     '''Process an email command
 
 :param group: A group object.
-:param email: An email, with the IEmail interface'''
+:param email: An email message.
+:type email: :class:`email.message.Message`'''
 
     def __init__(self, group, email, request):
         self.group = group
@@ -47,7 +48,7 @@ class ProcessEmailCommand(object):
     def process(self):
         '''Process the command in the email
 
-:returns: The result of processign the command
+:returns: The result of processing the command
 :rtype: ``.result.CommandResult``'''
         retval = CommandResult.notACommand
         if self.command:
@@ -63,23 +64,24 @@ STRING = basestring if (sys.version_info < (3, )) else str
 def process_command(group, email, request):
     '''Process a command in an email message
 
-:param group: The group that recieved the email message.
+:param obj group: The group that recieved the email message.
 :param email: The email message that was recieved (which may or may not
               contain a command).
 :type email: str or :class:`email.message.Message`
+:param obj request: The current browser request object.
 :returns: If a command was processed, and if email processing should
           continue.
-:rtype: :class:`CommandResult`
+:rtype: :class:`.CommandResult`
 
 When an email is recieved it needs to checked to see if its ``Subject``
 header is command, and the command executed if necessary. The
-:func:`process_command` function performs both of these tasks. The result
+:func:`.process_command` function performs both of these tasks. The result
 will be either
 
-* :attr:`CommandResut.notACommand` if the email is a normal message,
-* :attr:`CommandResut.commandStop` if the email contained a command and
+* :attr:`.CommandResut.notACommand` if the email is a normal message,
+* :attr:`.CommandResut.commandStop` if the email contained a command and
   processing should stop, or
-* :attr:`CommandResut.commandContinue` if the email contained a command and
+* :attr:`.CommandResut.commandContinue` if the email contained a command and
   processing should continue.
 '''
     if isinstance(email, Message):

@@ -33,7 +33,12 @@ class CommandABC(object):
 
 :param email: The email message that contains the command.
 :type email: :class:`email.message.Message`
-:param request: The HTTP request made to process the email.'''
+:param request: The HTTP request made to process the email.
+:returns: If a command was processed, and if email processing should
+          continue.
+:rtype: :class:`.CommandResult`
+
+*Concrete* classes must implement this method.'''
 
     @staticmethod
     def get_command_components(email):

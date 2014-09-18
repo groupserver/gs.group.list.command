@@ -28,5 +28,5 @@ class CommandResult(Enum):
     commandStop = 1
 
     #: The command was processed, and processing of this email should
-    #: contunue.
+    #: continue.
     commandContinue = 2
