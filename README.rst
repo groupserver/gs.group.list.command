@@ -7,7 +7,7 @@ Email commands for a group
 
 :Author: `Michael JasonSmith`_
 :Contact: Michael JasonSmith <mpj17@onlinegroups.net>
-:Date: 2014-08-29
+:Date: 2014-09-18
 :Organization: `GroupServer.org`_
 :Copyright: This document is licensed under a
   `Creative Commons Attribution-Share Alike 4.0 International License`_
@@ -35,7 +35,8 @@ of this product.
 Resources
 =========
 
-- Code repository: https://source.iopen.net/groupserver/gs.group.list.command
+- Documentation: http://gsgrouplistcommand.readthedocs.org/
+- Code repository: https://github.com/groupserver/gs.group.list.command
 - Questions and comments to http://groupserver.org/groups/development
 - Report bugs at https://redmine.iopen.net/projects/groupserver
 
