@@ -43,6 +43,13 @@ class TestProcessEmailCommand(TestCase):
         pec = ProcessEmailCommand(self.fauxGroup, e, None)
         self.assertEqual(command, pec.command)
 
+    def test_command_re(self):
+        'Test that "Re:" is stripped'
+        command = 'paranah'
+        e = self.get_email('Re: ' + command)
+        pec = ProcessEmailCommand(self.fauxGroup, e, None)
+        self.assertEqual(command, pec.command)
+
     def test_command_lowercase(self):
         'Test that we extract the lower-case command.'
         command = 'Test'
