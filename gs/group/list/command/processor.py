@@ -38,9 +38,13 @@ class ProcessEmailCommand(object):
     @Lazy
     def command(self):
         retval = None
-        subject = self.email.get('Subject', None)
-        if subject:
-            components = [c.lower() for c in shlex.split(subject)
+        subject = self.email.get('Subject', '')
+        try:
+            splitSubject = shlex.split(subject)
+        except ValueError:
+            splitSubject = None
+        if splitSubject:
+            components = [c.lower() for c in splitSubject
                           if c.lower() != 're:']
             retval = components[0] if components else None
         return retval

@@ -14,6 +14,7 @@
 ############################################################################
 from __future__ import absolute_import, unicode_literals
 from email.parser import Parser
+from mock import patch
 from unittest import TestCase
 from gs.group.list.command.processor import (ProcessEmailCommand,
                                              process_command)
@@ -76,6 +77,49 @@ class TestProcessEmailCommand(TestCase):
     def test_not_a_command(self):
         'Test an email that does not contain a command'
         command = 'This is a dead parrot'
+        e = self.get_email(command)
+        pec = ProcessEmailCommand(self.fauxGroup, e, None)
+        r = pec.process()
+        self.assertEqual(CommandResult.notACommand, r)
+
+    @patch('gs.group.list.command.processor.shlex.split')
+    def test_shlex_value_error(self, ss):
+        'Test that a value-error parsing the subject is not a disaster'
+        command = 'This is a dead parrot'
+        e = self.get_email(command)
+        pec = ProcessEmailCommand(self.fauxGroup, e, None)
+        ss.side_effect = ValueError('This is not good')
+        r = pec.process()
+        self.assertEqual(CommandResult.notACommand, r)
+
+    def test_missing_closing_quote(self):
+        'Test that a missing close-quote in the subject is not a disaster'
+        command = 'This is a "dead parrot'
+        e = self.get_email(command)
+        pec = ProcessEmailCommand(self.fauxGroup, e, None)
+        r = pec.process()
+        self.assertEqual(CommandResult.notACommand, r)
+
+    def test_missing_subject(self):
+        'Ensure that a missing subject is correctly handled'
+        command = 'This is a "dead parrot'
+        e = self.get_email(command)
+        del(e['Subject'])
+        pec = ProcessEmailCommand(self.fauxGroup, e, None)
+        r = pec.process()
+        self.assertEqual(CommandResult.notACommand, r)
+
+    def test_empty_subject(self):
+        'Ensure that an empty subject is correctly handled'
+        command = ''
+        e = self.get_email(command)
+        pec = ProcessEmailCommand(self.fauxGroup, e, None)
+        r = pec.process()
+        self.assertEqual(CommandResult.notACommand, r)
+
+    def test_blank_subject(self):
+        'Ensure that a blank subject is correctly handled'
+        command = ' '
         e = self.get_email(command)
         pec = ProcessEmailCommand(self.fauxGroup, e, None)
         r = pec.process()

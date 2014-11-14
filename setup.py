@@ -68,5 +68,6 @@ setup(name='gs.group.list.command',
       install_requires=install_requires,
       extras_require={'docs': ['Sphinx', ], },
       test_suite="gs.group.list.command.tests.test_all",
+      tests_require=['mock', ],
       entry_points="""# -*- Entry points: -*-
       """,)
