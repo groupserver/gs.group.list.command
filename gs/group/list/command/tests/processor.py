@@ -100,6 +100,14 @@ class TestProcessEmailCommand(TestCase):
         r = pec.process()
         self.assertEqual(CommandResult.notACommand, r)
 
+    def test_apostrophie(self):
+        'Test that an apostrophie in the subject is not a disaster'
+        command = "It's silly"
+        e = self.get_email(command)
+        pec = ProcessEmailCommand(self.fauxGroup, e, None)
+        r = pec.process()
+        self.assertEqual(CommandResult.notACommand, r)
+
     def test_missing_subject(self):
         'Ensure that a missing subject is correctly handled'
         command = 'This is a "dead parrot'
