@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.0.3 (2015-12-11)
+------------------
+
+* Fixing the unit tests (possibly an issue with Zope2 2.13.23)
+
 1.0.2 (2015-01-26)
 ------------------
 
