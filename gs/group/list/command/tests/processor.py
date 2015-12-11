@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ############################################################################
 #
-# Copyright © 2014 OnlineGroups.net and Contributors.
+# Copyright © 2014, 2015 OnlineGroups.net and Contributors.
 # All Rights Reserved.
 #
 # This software is subject to the provisions of the Zope Public License,
@@ -12,20 +12,31 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ############################################################################
-from __future__ import absolute_import, unicode_literals
+from __future__ import absolute_import, unicode_literals, print_function
 from email.parser import Parser
 from mock import patch
 from unittest import TestCase
-from gs.group.list.command.processor import (ProcessEmailCommand,
-                                             process_command)
+from zope.component import getGlobalSiteManager
+from gs.group.list.command.interfaces import IEmailCommand
+from gs.group.list.command.processor import (ProcessEmailCommand, process_command)
 from gs.group.list.command.result import CommandResult
-from .faux import FauxGroup
+from .faux import (FauxGroup, IFauxGroup, FauxCommandStop, FauxCommandContinue)
 
 
 class TestProcessEmailCommand(TestCase):
 
     def setUp(self):
+        gsm = getGlobalSiteManager()
+        gsm.registerAdapter(FauxCommandStop, (IFauxGroup,), IEmailCommand, 'stop')
+        gsm.registerAdapter(FauxCommandContinue, (IFauxGroup,), IEmailCommand, 'continue')
+
         self.fauxGroup = FauxGroup()
+
+    def tearDown(self):
+        gsm = getGlobalSiteManager()
+        # Registering None deletes the adaptor
+        gsm.registerAdapter(None, (IFauxGroup,), IEmailCommand, 'stop')
+        gsm.registerAdapter(None, (IFauxGroup,), IEmailCommand, 'continue')
 
     @staticmethod
     def get_email(subject):

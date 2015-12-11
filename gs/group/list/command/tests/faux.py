@@ -13,7 +13,6 @@
 #
 ############################################################################
 from __future__ import absolute_import, unicode_literals
-from zope.component import getGlobalSiteManager
 from zope.interface import Interface, implementer
 from gs.group.list.command.interfaces import IEmailCommand
 from gs.group.list.command.result import CommandResult
@@ -47,9 +46,3 @@ class FauxCommandStop(FauxCommand):
 @implementer(IEmailCommand)
 class FauxCommandContinue(FauxCommand):
     retval = CommandResult.commandContinue
-
-
-gsm = getGlobalSiteManager()
-gsm.registerAdapter(FauxCommandStop, (IFauxGroup,), IEmailCommand, 'stop')
-gsm.registerAdapter(FauxCommandContinue, (IFauxGroup,), IEmailCommand,
-                    'continue')
